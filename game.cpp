@@ -1,6 +1,11 @@
 #include "game.hpp"
 #include "pico_graphics.hpp"
 
+#ifdef WIN32
+#include <stdlib.h>
+#define __builtin_bswap16 _byteswap_ushort
+#endif
+
 using namespace blit;
 
 constexpr Size bounds(320, 240);
