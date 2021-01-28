@@ -1,8 +1,7 @@
 #pragma once
 
 #ifdef WIN32
-#include <stdlib.h>
-#define __builtin_bswap16 _byteswap_ushort
+#define __builtin_bswap16(x)(x >> 8 | (x & 0xff) << 8)
 #endif
 
 #include <string>
