@@ -13,9 +13,38 @@ void init() {
     set_screen_mode(ScreenMode::hires);
 }
 
-void render(uint32_t time) {
+void clip_demo() {
+    picographics.set_pen(255, 255, 255);
+    picographics.text("1. The screen", pimoroni::Point(10, 10), 320, 1);
+    picographics.text("2. Add a clip", pimoroni::Point(170, 10), 320, 1);
+    picographics.text("3. Draw a circle", pimoroni::Point(10, 130), 320, 1);
+    picographics.text("4. What actually gets drawn", pimoroni::Point(170, 130), 320, 1);
+
+    picographics.set_pen(30, 30, 30);
+    picographics.rectangle(pimoroni::Rect(10, 30, 140, 80));
+    picographics.rectangle(pimoroni::Rect(170, 30, 140, 80));
+    picographics.rectangle(pimoroni::Rect(10, 150, 140, 80));
+    picographics.rectangle(pimoroni::Rect(170, 150, 140, 80));
+
+    // Add a clip
+    picographics.set_pen(255, 0, 0);
+    pimoroni::Rect clip = pimoroni::Rect(170, 30, 70, 40);
     picographics.pen = picographics.create_pen(255, 0, 0);
-    picographics.circle(pimoroni::Point(160, 120), 30);
+    picographics.rectangle(clip);
+
+    // Draw a circle
+    picographics.set_pen(0, 255, 0);
+    picographics.circle(pimoroni::Point(10 + 70, 150 + 40), 30);
+
+    // What actually gets drawn
+    clip.y = 150;
+    picographics.set_clip(clip);
+    picographics.circle(pimoroni::Point(170 + 70, 150 + 40), 30);
+}
+
+void render(uint32_t time) {
+
+    clip_demo();
 
     for(auto y = 0u; y < bounds.h; y++) {
         for(auto x = 0u; x < bounds.w; x++) {
