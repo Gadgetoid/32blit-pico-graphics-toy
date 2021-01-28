@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.8)
 
 project(game)
 set(32BLIT_PATH "../" CACHE PATH "Path to 32blit.cmake")
-set(PROJECT_SOURCE game.cpp game.hpp)
+set(PROJECT_SOURCE game.cpp game.hpp pico_graphics.cpp types.cpp font_data.cpp)
 set(PROJECT_DISTRIBS LICENSE README.md)
 
 # Build configuration; approach this with caution!

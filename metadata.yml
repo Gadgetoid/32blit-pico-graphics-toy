@@ -1,6 +1,6 @@
-title: game title
-description: game description
-author: you
+title: Pico Graphics Toy
+description: Play with Pico Graphics in the 32blit engine
+author: gadgetoid
 splash:
   file: assets/no-image.png
 icon:

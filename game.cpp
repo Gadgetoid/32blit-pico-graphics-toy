@@ -1,44 +1,34 @@
 #include "game.hpp"
+#include "pico_graphics.hpp"
 
 using namespace blit;
 
-///////////////////////////////////////////////////////////////////////////
-//
-// init()
-//
-// setup your game here
-//
+constexpr Size bounds(320, 240);
+
+uint16_t _pico_buffer[bounds.w * bounds.h];
+pimoroni::PicoGraphics picographics(bounds.w, bounds.h, _pico_buffer);
+
+
 void init() {
     set_screen_mode(ScreenMode::hires);
 }
 
-///////////////////////////////////////////////////////////////////////////
-//
-// render(time)
-//
-// This function is called to perform rendering of the game. time is the 
-// amount if milliseconds elapsed since the start of your game
-//
 void render(uint32_t time) {
+    picographics.pen = picographics.create_pen(255, 0, 0);
+    picographics.circle(pimoroni::Point(160, 120), 30);
 
-    // clear the screen -- screen is a reference to the frame buffer and can be used to draw all things with the 32blit
-    screen.clear();
+    for(auto y = 0u; y < bounds.h; y++) {
+        for(auto x = 0u; x < bounds.w; x++) {
+            uint16_t p = __builtin_bswap16(_pico_buffer[y * bounds.w + x]);
+            uint8_t r = ((p >> 11) & 0b11111) << 3;
+            uint8_t g = ((p >> 5) & 0b111111) << 2;
+            uint8_t b = (p & 0b11111) << 3;
 
-    // draw some text at the top of the screen
-    screen.alpha = 255;
-    screen.mask = nullptr;
-    screen.pen = Pen(255, 255, 255);
-    screen.rectangle(Rect(0, 0, 320, 14));
-    screen.pen = Pen(0, 0, 0);
-    screen.text("Hello 32blit!", minimal_font, Point(5, 4));
+            screen.pen = Pen(r, g, b);
+            screen.pixel(Point(x, y));
+        }
+    }
 }
 
-///////////////////////////////////////////////////////////////////////////
-//
-// update(time)
-//
-// This is called to update your game state. time is the 
-// amount if milliseconds elapsed since the start of your game
-//
 void update(uint32_t time) {
 }
