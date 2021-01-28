@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef WIN32
+#include <stdlib.h>
+#define __builtin_bswap16 _byteswap_ushort
+#endif
+
 #include <string>
 #include <cstdint>
 #include <algorithm>
